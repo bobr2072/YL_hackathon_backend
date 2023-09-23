@@ -10,7 +10,7 @@ on:
     - develop
 
 jobs:
-  migration-check:
+  django-migrations-check:
     runs-on: ubuntu-latest
     defaults:
         run:
