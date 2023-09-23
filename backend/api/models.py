@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Sales(models.Model):
-    """Данные по продажам."""
+    """Модель продаж."""
     st = models.IntegerField(
         unique=True,
         verbose_name='Захэшированное id магазина',
@@ -26,12 +26,15 @@ class Sales(models.Model):
 
 
 class Categories(models.Model):
+    """Модель категорий."""
     pass
 
 
 class Shops(models.Model):
+    """Модель магазинов."""
     pass
 
 
 class Forecast(models.Model):
+    """Модель предсказания."""
     pass
