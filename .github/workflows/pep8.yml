@@ -3,11 +3,12 @@ name: App code style workflow
 on: [push]
 
 jobs:
-  tests:
+  pep8-test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
