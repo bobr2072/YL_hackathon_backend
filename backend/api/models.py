@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Sales(models.Model):
-    """Данные по продажам."""
+    """Модель продаж."""
     st = models.IntegerField(
         unique=True,
         verbose_name='Захэшированное id магазина',
@@ -24,6 +24,17 @@ class Sales(models.Model):
     pr_promo_sales_in_rub = models.IntegerField(
         verbose_name='продажи с признаком промо в РУБ')
 
-# Я так понимаю, что тут должна быть не самая обычная модель, а иерархическая,
-# как тут 2 ой пример
-# https://qaa-engineer.ru/kak-ispolzovat-ierarhicheskuyu-peremennuyu-v-modeli-ml/)
+
+class Categories(models.Model):
+    """Модель категорий."""
+    pass
+
+
+class Shops(models.Model):
+    """Модель магазинов."""
+    pass
+
+
+class Forecast(models.Model):
+    """Модель предсказания."""
+    pass
