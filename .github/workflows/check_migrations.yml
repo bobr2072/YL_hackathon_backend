@@ -1,0 +1,39 @@
+name: Django migrations Check
+
+on:
+  push:
+    branches:
+    - '**'
+  pull_request:
+    branches:
+    - main
+    - develop
+
+jobs:
+  migration-check:
+    name: Check Migrations
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run migrations check
+        run: |
+          cd backend/
+
+          touch .env
+
+          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+
+          python manage.py makemigrations --check --dry-run
