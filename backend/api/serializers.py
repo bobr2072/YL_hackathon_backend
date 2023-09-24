@@ -4,28 +4,34 @@ from api.models import Categories, Forecast, Sales, Shops
 
 
 class SalesSerializer(serializers.ModelSerializer):
+    # fact = FactInStoreSerializer(many=True) - как пример
 
     class Meta:
         model = Sales
-        fields = '__all__'
+        fields = ('store', 'sku', 'fact')
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Categories
-        fields = '__all__'
+        # Может, сюда лучше указать read_only_fields ?
+        fields = ('sku', 'group', 'category', 'subcategory', 'uom')
 
 
 class ForecastSerializer(serializers.ModelSerializer):
+    store = serializers.ReadOnlyField(sourse='shops.store')
+    # forecast = ForecastForSalesSerializer(many=True) - как пример
 
     class Meta:
         model = Forecast
-        fields = '__all__'
+        fields = ('store', 'forecast_date', 'forecast')
 
 
 class ShopsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shops
-        fields = '__all__'
+        fields = ('store', 'city', 'division',
+                  'type_format', 'loc', 'size',
+                  'is_active')
