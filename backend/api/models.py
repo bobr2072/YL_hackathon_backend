@@ -4,125 +4,106 @@ from django.db import models
 class Categories(models.Model):
     """Модель категорий."""
     sku = models.TextField(
-        unique=True,
-        verbose_name='Артикул',
-        db_index=True)
+        'Артикул',
+        unique=True)
     group = models.TextField(
-        unique=True,
-        verbose_name='Группа товаров',
-        db_index=True)
+        'Группа товаров',
+        unique=True)
     category = models.TextField(
-        unique=True,
-        verbose_name='Категория товаров',
-        db_index=True)
+        'Категория товаров',
+        unique=True)
     subcategory = models.TextField(
-        unique=True,
-        verbose_name='Подкатегория товаров',
-        db_index=True)
+        'Подкатегория товаров',
+        unique=True)
 # Этот столбец(ИМХО) маркер, обозначающий продаётся товар на вес или в ШТ
 # Мб здесь больше подходит тип Boolean?
     uom = models.IntegerField(
-        verbose_name='Единица измерения')
+        'Единица измерения')
 
 
 class SalesInStore(models.Model):
     """Связующая таблица для модели Sales."""
     date = models.DateField(
-        verbose_name='День продаж'
+        'День продаж'
     )
     sales_units = models.IntegerField(
-        verbose_name='Число проданных товаров без признака промо',
-        db_index=True)
+        'Число проданных товаров без признака промо')
     sales_units_promo = models.IntegerField(
-        verbose_name='Число проданных товаров c признаком промо',
-        db_index=True)
+        'Число проданных товаров c признаком промо')
     sales_rub = models.FloatField(
-        verbose_name='Продажи без признака промо в РУБ',
-        db_index=True)
+        'Продажи без признака промо в РУБ')
     subcatesales_run_promgory = models.FloatField(
-        verbose_name='Продажи с признаком промо в РУБ',
-        db_index=True)
+        'Продажи с признаком промо в РУБ')
 
 
 class Shops(models.Model):
     """Модель списка магазинов."""
     store = models.TextField(
-        unique=True,
-        verbose_name='Магаизн',
-        db_index=True)
+        'Магаизн',
+        unique=True)
     city = models.TextField(
-        verbose_name='Город',
-        db_index=True)
+        'Город')
     division = models.TextField(
-        verbose_name='Подразделение',
-        db_index=True)
+        'Подразделение')
     type_format = models.IntegerField(
-        verbose_name='Формата магазина',
-        db_index=True)
+        'Формата магазина')
     loc = models.IntegerField(
-        verbose_name='Локация магазина',
-        db_index=True)
+        'Локация магазина')
     size = models.IntegerField(
-        verbose_name='Тип размера магазина',
-        db_index=True)
+        'Тип размера магазина')
     is_active = models.BooleanField(
-        verbose_name='Статус магазина(открыт/закрыт)',
-        db_index=True)
+        'Статус магазина(открыт/закрыт)')
 
 
 class Sales(models.Model):
     """Модель продаж."""
     store = models.ForeignKey(
+        'Магаизн',
         Shops,
         on_delete=models.CASCADE,
-        verbose_name='Магаизн',
         db_index=True)
     sku = models.TextField(
-        unique=True,
-        verbose_name='Артикул',
-        db_index=True)
+        'Артикул',
+        unique=True)
     fact = models.ForeignKey(
+        'Продажи',
         SalesInStore,
-        on_delete=models.CASCADE,
-        verbose_name='Продажи')
+        on_delete=models.CASCADE)
 
 
 class SalesUnitsForForecast(models.Model):
     """Связующая таблица для модели ForecastInStore."""
     date = models.DateField(
-        verbose_name='Прогнозируемый день продаж'
+        'Прогнозируемый день продаж'
     )
     quantity = models.IntegerField(
-        verbose_name='Прогнозируемое число продаж',
-        db_index=True)
+        'Прогнозируемое число продаж')
 
 
 class ForecastInStore(models.Model):
     """Связующая таблица для модели Forecast."""
     sku = models.TextField(
-        unique=True,
-        verbose_name='Артикул',
-        db_index=True)
+        'Артикул',
+        unique=True)
 # Здесь должна быть связь с ещё одной таблицей?
     sales_units = models.ForeignKey(
+        'Прогноз числа проданных товаров без признака промо',
         SalesUnitsForForecast,
         on_delete=models.CASCADE,
-        verbose_name='Прогноз числа проданных товаров без признака промо',
         db_index=True)
 
 
 class Forecast(models.Model):
     """Модель прогнозов."""
     store = models.ForeignKey(
+        'Магаизн',
         Shops,
         on_delete=models.CASCADE,
-        verbose_name='Магаизн',
         db_index=True)
     forecast_date = models.DateField(
-        verbose_name='Дата прогноза'
+        'Дата прогноза'
     )
     forecast = models.ForeignKey(
+        'Прогноз',
         ForecastInStore,
-        on_delete=models.CASCADE,
-        verbose_name='Прогноз'
-    )
+        on_delete=models.CASCADE)
