@@ -6,20 +6,20 @@ from api.serializers import (CategoriesSerializer, ForecastSerializer,
 
 
 class CategoriesViewSet(viewsets.ModelViewSet):
-    queryset = Categories
+    queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
 
 
 class SalesViewSet(viewsets.ModelViewSet):
-    queryset = Sales
+    queryset = Sales.objects.all()
     serializer_class = SalesSerializer
 
 
 class ShopsViewSet(viewsets.ModelViewSet):
-    queryset = Shops
+    queryset = Shops.objects.all()
     serializer_class = ShopsSerializer
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
-    queryset = Forecast
+    queryset = Forecast.objects.all()
     serializer_class = ForecastSerializer
