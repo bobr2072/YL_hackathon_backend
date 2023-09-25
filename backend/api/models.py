@@ -150,11 +150,22 @@ class Stores(models.Model):
         on_delete=models.DO_NOTHING,
         verbose_name='Город',
     )
-    division = models.CharField(max_length=50, verbose_name='Подразделение')
-    type_format = models.IntegerField(verbose_name='Тип формата')
-    loc = models.IntegerField(verbose_name='Локация')
-    size = models.IntegerField(verbose_name='Размер')
-    is_active = models.BooleanField(verbose_name='Активен')
+    division = models.CharField(
+        max_length=32,
+        verbose_name='Подразделение',
+    )
+    type_format = models.IntegerField(
+        verbose_name='Тип формата',
+    )
+    loc = models.IntegerField(
+        verbose_name='Локация',
+    )
+    size = models.IntegerField(
+        verbose_name='Размер',
+    )
+    is_active = models.BooleanField(
+        verbose_name='Активен',
+    )
 
     class Meta:
         unique_together = ('store_name', 'city')
