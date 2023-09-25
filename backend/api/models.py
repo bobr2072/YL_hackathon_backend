@@ -60,15 +60,13 @@ class Sales(models.Model):
     store = models.ForeignKey(
         'Магаизн',
         Shops,
-        on_delete=models.CASCADE,
         db_index=True)
     sku = models.TextField(
         'Артикул',
         unique=True)
     fact = models.ForeignKey(
         'Продажи',
-        SalesInStore,
-        on_delete=models.CASCADE)
+        SalesInStore)
 
 
 class SalesUnitsForForecast(models.Model):
@@ -89,7 +87,6 @@ class ForecastInStore(models.Model):
     sales_units = models.ForeignKey(
         'Прогноз числа проданных товаров без признака промо',
         SalesUnitsForForecast,
-        on_delete=models.CASCADE,
         db_index=True)
 
 
@@ -98,12 +95,10 @@ class Forecast(models.Model):
     store = models.ForeignKey(
         'Магаизн',
         Shops,
-        on_delete=models.CASCADE,
         db_index=True)
     forecast_date = models.DateField(
         'Дата прогноза'
     )
     forecast = models.ForeignKey(
         'Прогноз',
-        ForecastInStore,
-        on_delete=models.CASCADE)
+        ForecastInStore)

@@ -20,7 +20,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 
 class ForecastSerializer(serializers.ModelSerializer):
-    store = serializers.ReadOnlyField(sourse='shops.store')
+    store = serializers.ReadOnlyField(source='shops.store')
     # forecast = ForecastForSalesSerializer(many=True) - как пример
 
     class Meta:
