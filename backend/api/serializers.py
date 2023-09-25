@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Categories, Forecast, Sales, Shops
+from api.models import Categories, Forecast, Sales, Stores
 
 
 class SalesSerializer(serializers.ModelSerializer):
@@ -27,5 +27,5 @@ class ForecastSerializer(serializers.ModelSerializer):
 class ShopsSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Shops
+        model = Stores
         fields = '__all__'

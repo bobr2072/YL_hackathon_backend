@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from api.models import Categories, Forecast, Sales, Shops
+from api.models import Categories, Forecast, Sales, Stores
 from api.serializers import (CategoriesSerializer, ForecastSerializer,
                              SalesSerializer, ShopsSerializer)
 
@@ -15,8 +15,8 @@ class SalesViewSet(viewsets.ModelViewSet):
     serializer_class = SalesSerializer
 
 
-class ShopsViewSet(viewsets.ModelViewSet):
-    queryset = Shops.objects.all()
+class StoresViewSet(viewsets.ModelViewSet):
+    queryset = Stores.objects.all()
     serializer_class = ShopsSerializer
 
 
