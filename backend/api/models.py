@@ -1,109 +1,187 @@
 from django.db import models
 
 
+class Category(models.Model):
+    """Модель категории."""
+
+    name = models.CharField(
+        verbose_name='Название категории',
+        max_length=32,
+        unique=True,
+        db_index=True,
+    )
+
+
+class Product(models.Model):
+    """Модель товара."""
+
+    name = models.CharField(
+        verbose_name='Название товара',
+        max_length=32,
+        unique=True,
+        db_index=True,
+    )
+
+
+class Group(models.Model):
+    """Модель группы."""
+
+    name = models.CharField(
+        verbose_name='Название группы',
+        max_length=32,
+        unique=True,
+        db_index=True,
+    )
+
+
+class Subcategory(models.Model):
+    """Модель подкатегории."""
+
+    name = models.CharField(
+        verbose_name='Название подкатегории',
+        max_length=32,
+        unique=True,
+        db_index=True,
+    )
+
+
+class Store(models.Model):
+    """Модель магазина."""
+
+    name = models.CharField(
+        verbose_name='Название магазина',
+        max_length=32,
+        unique=True,
+        db_index=True
+    )
+
+
+class City(models.Model):
+    """Модель города."""
+
+    name = models.CharField(
+        verbose_name='Название города',
+        max_length=32,
+        unique=True,
+        db_index=True,
+    )
+
+
 class Categories(models.Model):
     """Модель категорий."""
-    sku = models.TextField(
-        'Артикул',
-        unique=True)
-    group = models.TextField(
-        'Группа товаров',
-        unique=True)
-    category = models.TextField(
-        'Категория товаров',
-        unique=True)
-    subcategory = models.TextField(
-        'Подкатегория товаров',
-        unique=True)
-# Этот столбец(ИМХО) маркер, обозначающий продаётся товар на вес или в ШТ
-# Мб здесь больше подходит тип Boolean?
-    uom = models.IntegerField(
-        'Единица измерения')
 
-
-class SalesInStore(models.Model):
-    """Связующая таблица для модели Sales."""
-    date = models.DateField(
-        'День продаж'
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name='Название товара',
     )
-    sales_units = models.IntegerField(
-        'Число проданных товаров без признака промо')
-    sales_units_promo = models.IntegerField(
-        'Число проданных товаров c признаком промо')
-    sales_rub = models.FloatField(
-        'Продажи без признака промо в РУБ')
-    subcatesales_run_promgory = models.FloatField(
-        'Продажи с признаком промо в РУБ')
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Группа',
+
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Категория',
+    )
+    subcategory = models.ForeignKey(
+        Subcategory,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Подкатегория',
+    )
+    amount = models.PositiveIntegerField(
+        verbose_name='Количество товара'
+    )
 
 
-class Shops(models.Model):
-    """Модель списка магазинов."""
-    store = models.TextField(
-        'Магаизн',
-        unique=True)
-    city = models.TextField(
-        'Город')
-    division = models.TextField(
-        'Подразделение')
-    type_format = models.IntegerField(
-        'Формата магазина')
-    loc = models.IntegerField(
-        'Локация магазина')
-    size = models.IntegerField(
-        'Тип размера магазина')
-    is_active = models.BooleanField(
-        'Статус магазина(открыт/закрыт)')
+class Profit(models.Model):
+    date = models.DateField(
+        verbose_name='Дата продажи',
+    )
+    type = models.BooleanField(
+        verbose_name='Промо или нет',
+    )
+    units = models.PositiveIntegerField(
+        verbose_name='Число продаж без промо',
+    )
+    units_promo = models.PositiveIntegerField(
+        verbose_name='Число продаж промо',
+    )
+    money = models.FloatField(
+        verbose_name='Продажи без промо в РУБ',
+    )
+    money_promo = models.FloatField(
+        verbose_name='Продажи промо в РУБ',
+    )
 
 
 class Sales(models.Model):
     """Модель продаж."""
-    store = models.ForeignKey(
-        'Магаизн',
-        Shops,
-        on_delete=models.CASCADE,
-        db_index=True)
-    sku = models.TextField(
-        'Артикул',
-        unique=True)
-    fact = models.ForeignKey(
-        'Продажи',
-        SalesInStore,
-        on_delete=models.CASCADE)
 
-
-class SalesUnitsForForecast(models.Model):
-    """Связующая таблица для модели ForecastInStore."""
-    date = models.DateField(
-        'Прогнозируемый день продаж'
+    saled_product = models.ForeignKey(
+        Product,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Название товара',
     )
-    quantity = models.IntegerField(
-        'Прогнозируемое число продаж')
+    store = models.ForeignKey(
+        Store,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Магазин продаж',
+    )
+    profit = models.ForeignKey(
+        Profit,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Информация о продажах товара',
+    )
 
 
-class ForecastInStore(models.Model):
-    """Связующая таблица для модели Forecast."""
-    sku = models.TextField(
-        'Артикул',
-        unique=True)
-# Здесь должна быть связь с ещё одной таблицей?
-    sales_units = models.ForeignKey(
-        'Прогноз числа проданных товаров без признака промо',
-        SalesUnitsForForecast,
-        on_delete=models.CASCADE,
-        db_index=True)
+class Stores(models.Model):
+    """Модель магазинов."""
+
+    store_name = models.ForeignKey(
+        Store,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Название магазина',
+    )
+    city = models.ForeignKey(
+        City,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Город',
+    )
+    division = models.CharField(max_length=50, verbose_name='Подразделение')
+    type_format = models.IntegerField(verbose_name='Тип формата')
+    loc = models.IntegerField(verbose_name='Локация')
+    size = models.IntegerField(verbose_name='Размер')
+    is_active = models.BooleanField(verbose_name='Активен')
+
+    class Meta:
+        unique_together = ('store_name', 'city')
+
+
+class Prediction(models.Model):
+    date = models.DateField(
+        verbose_name='Дата продажи товара'
+    )
+    units = models.PositiveIntegerField(
+        verbose_name='Ожидаемое кол-во продажи'
+    )
 
 
 class Forecast(models.Model):
-    """Модель прогнозов."""
+    """Модель прогноза."""
+
     store = models.ForeignKey(
-        'Магаизн',
-        Shops,
-        on_delete=models.CASCADE,
-        db_index=True)
-    forecast_date = models.DateField(
-        'Дата прогноза'
+        Store,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Прогноз для магазина'
     )
-    forecast = models.ForeignKey(
-        'Прогноз',
-        ForecastInStore,
-        on_delete=models.CASCADE)
+    date = models.DateField(
+        verbose_name='Дата прогноза',
+    )
+    prediction = models.ForeignKey(
+        Prediction,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Прогноз'
+    )
