@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 from api.models import (Categories, Category, City, Forecast, Group,
-                        Prediction, Product, Profit, Sales, Store, Stores,
-                        Subcategory)
+                        Prediction, Product, ProductPrediction, Profit, Sales,
+                        Store, Stores, Subcategory)
 
 
 @admin.register(Sales)
@@ -62,4 +62,9 @@ class ProfitAdmin(admin.ModelAdmin):
 
 @admin.register(Prediction)
 class PredictionAdmin(admin.ModelAdmin):
+    ordering = ('id',)
+
+
+@admin.register(ProductPrediction)
+class ProductPredictionAdmin(admin.ModelAdmin):
     ordering = ('id',)

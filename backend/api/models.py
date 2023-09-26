@@ -130,9 +130,8 @@ class Sales(models.Model):
         on_delete=models.DO_NOTHING,
         verbose_name='Магазин продаж',
     )
-    profit = models.ForeignKey(
+    profit = models.ManyToManyField(
         Profit,
-        on_delete=models.DO_NOTHING,
         verbose_name='Информация о продажах товара',
     )
 
@@ -171,12 +170,25 @@ class Stores(models.Model):
         unique_together = ('store_name', 'city')
 
 
-class Prediction(models.Model):
+class ProductPrediction(models.Model):
     date = models.DateField(
         verbose_name='Дата продажи товара'
     )
     units = models.PositiveIntegerField(
         verbose_name='Ожидаемое кол-во продажи'
+    )
+
+
+class Prediction(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Название продукта',
+    )
+    prediction = models.ForeignKey(
+        ProductPrediction,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Прогноз'
     )
 
 
@@ -191,8 +203,7 @@ class Forecast(models.Model):
     date = models.DateField(
         verbose_name='Дата прогноза',
     )
-    prediction = models.ForeignKey(
+    prediction = models.ManyToManyField(
         Prediction,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Прогноз'
+        verbose_name='Прогноз для продукта'
     )
