@@ -1,37 +1,72 @@
 from rest_framework import serializers
 
-from api.models import Categories, Forecast, Sales, Stores
+from api.models import (Categories, Forecast, Sales,
+                        Stores, Profit, Prediction)
+
+
+class ProfitSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profit
+        fields = ('date', 'type', 'units', 'units_promo', 'money', 'money_promo')
 
 
 class SalesSerializer(serializers.ModelSerializer):
-    # fact = FactInStoreSerializer(many=True) - как пример
+    """Сериализатор продаж."""
+    store = serializers.CharField(source='store.name')
+    saled_product = serializers.CharField(source='saled_product.name')
+    profit = ProfitSerializer(many=True)
 
     class Meta:
         model = Sales
-        fields = ('store', 'sku', 'fact')
+        fields = ('store', 'saled_product', 'profit')
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
+    """Сериализатор категорий."""
+    product = serializers.CharField(source='product.name')
+    group = serializers.CharField(source='group.name')
+    category = serializers.CharField(source='category.name')
+    subcategory = serializers.CharField(source='subcategory.name')
 
     class Meta:
         model = Categories
-        # Может, сюда лучше указать read_only_fields ?
-        fields = ('sku', 'group', 'category', 'subcategory', 'uom')
+        fields = ('product', 'group', 'category', 'subcategory', 'amount')
 
 
-class ForecastSerializer(serializers.ModelSerializer):
-    store = serializers.ReadOnlyField(source='shops.store')
-    # forecast = ForecastForSalesSerializer(many=True) - как пример
+class PredictionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Prediction
+        fields = ('date', 'units')
+
+
+class ForecastPostSerializer(serializers.ModelSerializer):
+    store = serializers.CharField(source='store.name')
+    prediction = PredictionSerializer(many=True)
 
     class Meta:
         model = Forecast
-        fields = ('store', 'forecast_date', 'forecast')
+        fields = ('store', 'date', 'prediction')
+
+
+class ForecastGetSerializer(serializers.ModelSerializer):
+    store = serializers.CharField(source='store.name')
+    product = serializers.CharField(source='product.name')
+    prediction = PredictionSerializer(many=True)
+
+    class Meta:
+        model = Forecast
+        fields = ('store', 'product', 'date', 'prediction')
 
 
 class ShopsSerializer(serializers.ModelSerializer):
+    """Сериализатор магазинов."""
+    store_name = serializers.CharField(source='store_name.name')
+    city = serializers.CharField(source='city.name')
 
     class Meta:
         model = Stores
-        fields = ('store', 'city', 'division',
+        fields = ('store_name', 'city', 'division',
                   'type_format', 'loc', 'size',
                   'is_active')
