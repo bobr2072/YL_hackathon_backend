@@ -1,21 +1,24 @@
 from rest_framework import serializers
 
 from api.models import (Categories, Forecast, Sales,
-                        Stores, Profit, Prediction)
+                        Stores, Profit, ProductPrediction,
+                        Prediction)
 
 
 class ProfitSerializer(serializers.ModelSerializer):
+    type = serializers.IntegerField()
 
     class Meta:
         model = Profit
-        fields = ('date', 'type', 'units', 'units_promo', 'money', 'money_promo')
+        fields = ['date', 'type', 'units',
+                  'units_promo', 'money', 'money_promo']
 
 
 class SalesSerializer(serializers.ModelSerializer):
     """Сериализатор продаж."""
     store = serializers.CharField(source='store.name')
     saled_product = serializers.CharField(source='saled_product.name')
-    profit = ProfitSerializer(many=True)
+    profit = ProfitSerializer(read_only=True, many=True)
 
     class Meta:
         model = Sales
@@ -34,36 +37,46 @@ class CategoriesSerializer(serializers.ModelSerializer):
         fields = ('product', 'group', 'category', 'subcategory', 'amount')
 
 
+class ProductPredictionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductPrediction
+        fields = ['date', 'units']
+
+
 class PredictionSerializer(serializers.ModelSerializer):
+    product = serializers.CharField(source='product.name')
+    prediction = ProductPredictionSerializer()
 
     class Meta:
         model = Prediction
-        fields = ('date', 'units')
+        fields = ['product', 'prediction']
 
 
 class ForecastPostSerializer(serializers.ModelSerializer):
     store = serializers.CharField(source='store.name')
-    prediction = PredictionSerializer(many=True)
+    product = serializers.CharField(source='product.name')
+    prediction = PredictionSerializer(read_only=True)
 
     class Meta:
         model = Forecast
-        fields = ('store', 'date', 'prediction')
+        fields = ['store', 'date', 'product', 'prediction']
 
 
 class ForecastGetSerializer(serializers.ModelSerializer):
     store = serializers.CharField(source='store.name')
-    product = serializers.CharField(source='product.name')
-    prediction = PredictionSerializer(many=True)
+    prediction = PredictionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Forecast
-        fields = ('store', 'product', 'date', 'prediction')
+        fields = ['store', 'date', 'prediction']
 
 
 class ShopsSerializer(serializers.ModelSerializer):
     """Сериализатор магазинов."""
     store_name = serializers.CharField(source='store_name.name')
     city = serializers.CharField(source='city.name')
+    is_active = serializers.IntegerField()
 
     class Meta:
         model = Stores

@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions
 
-from api.filters import ShopsFilter
+from api.filters import ShopsFilter, SalesFilter
 from api.models import Categories, Forecast, Sales, Stores
 from api.serializers import (CategoriesSerializer, ForecastGetSerializer,
                              ForecastPostSerializer, SalesSerializer,
@@ -15,6 +15,7 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 class SalesViewSet(viewsets.ModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
+    filterset_class = SalesFilter
 
 
 class StoresViewSet(viewsets.ModelViewSet):

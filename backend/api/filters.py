@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from .models import Stores
+from .models import Stores, Sales
 
 
 class ShopsFilter(filters.FilterSet):
@@ -8,3 +8,10 @@ class ShopsFilter(filters.FilterSet):
     class Meta:
         model = Stores
         fields = ['city', 'size', 'type_format', ]
+
+
+class SalesFilter(filters.FilterSet):
+    """Фильтр для продаж."""
+    class Meta:
+        model = Sales
+        fields = ['saled_product', 'store']
