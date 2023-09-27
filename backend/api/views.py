@@ -1,8 +1,10 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 
+from api.filters import ShopsFilter, SalesFilter
 from api.models import Categories, Forecast, Sales, Stores
-from api.serializers import (CategoriesSerializer, ForecastSerializer,
-                             SalesSerializer, ShopsSerializer)
+from api.serializers import (CategoriesSerializer, ForecastGetSerializer,
+                             ForecastPostSerializer, SalesSerializer,
+                             ShopsSerializer)
 
 
 class CategoriesViewSet(viewsets.ModelViewSet):
@@ -13,13 +15,19 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 class SalesViewSet(viewsets.ModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
+    filterset_class = SalesFilter
 
 
 class StoresViewSet(viewsets.ModelViewSet):
     queryset = Stores.objects.all()
     serializer_class = ShopsSerializer
+    filterset_class = ShopsFilter
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
     queryset = Forecast.objects.all()
-    serializer_class = ForecastSerializer
+
+    def get_serializer_class(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return ForecastGetSerializer
+        return ForecastPostSerializer
