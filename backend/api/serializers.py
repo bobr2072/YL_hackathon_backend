@@ -44,9 +44,20 @@ class ProductPredictionSerializer(serializers.ModelSerializer):
         fields = ['date', 'units']
 
 
+class ProductForPredictionSerializer(serializers.ModelSerializer):
+    forecast = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductPrediction
+        fields = ['forecast', ]
+
+    def get_forecast(self, obj):
+        return {obj.date.strftime('%Y-%m-%d'): str(obj.units)}
+
+
 class PredictionSerializer(serializers.ModelSerializer):
     product = serializers.CharField(source='product.name')
-    prediction = ProductPredictionSerializer()
+    prediction = ProductForPredictionSerializer()
 
     class Meta:
         model = Prediction
