@@ -1,8 +1,7 @@
 from rest_framework import serializers
 
-from api.models import (Categories, Forecast, Sales,
-                        Stores, Profit, ProductPrediction,
-                        Prediction)
+from api.models import (Categories, Forecast, Prediction, ProductPrediction,
+                        Profit, Sales, Stores)
 
 
 class ProfitSerializer(serializers.ModelSerializer):
