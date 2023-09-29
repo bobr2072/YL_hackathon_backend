@@ -1,6 +1,6 @@
-from rest_framework import viewsets, permissions
+from rest_framework import permissions, viewsets
 
-from api.filters import ShopsFilter, SalesFilter
+from api.filters import SalesFilter, ShopsFilter
 from api.models import Categories, Forecast, Sales, Stores
 from api.serializers import (CategoriesSerializer, ForecastGetSerializer,
                              ForecastPostSerializer, SalesSerializer,

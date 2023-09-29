@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   backend:
-    build: .
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     restart: always
-    volumes:
-      - static_value:/app/static/
-      - media_value:/app/media/ 
     env_file:
       - ./.env
+

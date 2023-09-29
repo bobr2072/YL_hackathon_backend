@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from .models import Stores, Sales
+from .models import Sales, Stores
 
 
 class ShopsFilter(filters.FilterSet):
