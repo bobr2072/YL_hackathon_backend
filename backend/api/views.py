@@ -1,27 +1,29 @@
-from rest_framework import viewsets, permissions
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, viewsets, permissions
 
-from api.filters import ShopsFilter, SalesFilter
 from api.models import Categories, Forecast, Sales, Stores
 from api.serializers import (CategoriesSerializer, ForecastGetSerializer,
                              ForecastPostSerializer, SalesSerializer,
                              ShopsSerializer)
 
 
-class CategoriesViewSet(viewsets.ModelViewSet):
+class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['product__name']
 
 
-class SalesViewSet(viewsets.ModelViewSet):
+class SalesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
-    filterset_class = SalesFilter
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['saled_product', 'store']
 
 
-class StoresViewSet(viewsets.ModelViewSet):
+class StoresViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Stores.objects.all()
     serializer_class = ShopsSerializer
-    filterset_class = ShopsFilter
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
