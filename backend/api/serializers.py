@@ -43,7 +43,7 @@ class ProductForPredictionSerializer(serializers.ModelSerializer):
         fields = ['date', 'units']
 
     def create(self, validated_data):
-        return ProductPrediction(**validated_data)
+        return ProductPrediction.objects.create(**validated_data)
 
 
 class PredictionSerializer(serializers.ModelSerializer):
@@ -55,7 +55,7 @@ class PredictionSerializer(serializers.ModelSerializer):
         fields = ['product', 'prediction']
 
     def create(self, validated_data):
-        return Prediction(**validated_data)
+        return Prediction.objects.create(**validated_data)
 
 
 class ForecastPostSerializer(serializers.ModelSerializer):
@@ -67,13 +67,30 @@ class ForecastPostSerializer(serializers.ModelSerializer):
         model = Forecast
         fields = ['store', 'date', 'predictions']
 
-    def create(self, validated_data):
-        predictions = validated_data.pop('predictions')
-        store = validated_data.pop('store')
-        product = validated_data.pop('product')
-        date = validated_data.pop('date')
-        forecast = Forecast.objects.create(product=product, date=date, store=store)
+    def add_product_predictions(self, date, units):
+        ProductPrediction.objects.bulk_create(
+            [ProductPrediction(
+                date=date, units=units)
+             ]
+        )
+
+    def add_prediction(self, product, model):
+        model = self.add_product_predictions
+        Prediction.objects.create(
+            [Prediction(
+                product=Product.objects.get(id=product['id']),
+                model=model)
+             ]
+        )
+
+    def create(self, data):
+        predictions = data.pop('predictions')
+        store = data.pop('store')
+        product = data.pop('product')
+        date = data.pop('date')
+        forecast = Forecast.objects.create(store=store, product=product, date=date)
         forecast.predictions.set(predictions)
+        self.add_prediction(product=product, model=predictions)
         return forecast
 
 
