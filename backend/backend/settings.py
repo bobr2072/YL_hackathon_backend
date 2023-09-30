@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', default='12345')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'backend']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'backend', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'drf_yasg',
 
     'api',
 ]
