@@ -1,6 +1,7 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
+from api.swagger import schema_view
 from api.views import (CategoriesViewSet, ForecastViewSet, SalesViewSet,
                        StoresViewSet)
 
@@ -14,4 +15,6 @@ router.register('forecast', ForecastViewSet, basename='forecast')
 
 urlpatterns = [
     path('v0/', include(router.urls)),
+    path('swagger/', schema_view.with_ui('swagger'), name='schema-swagger-ui'),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.as_view(), name='schema-json'),
 ]

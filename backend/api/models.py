@@ -11,6 +11,9 @@ class Category(models.Model):
         db_index=True,
     )
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Product(models.Model):
     """Модель товара."""
@@ -23,7 +26,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class Group(models.Model):
@@ -36,6 +39,9 @@ class Group(models.Model):
         db_index=True,
     )
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Subcategory(models.Model):
     """Модель подкатегории."""
@@ -46,6 +52,9 @@ class Subcategory(models.Model):
         unique=True,
         db_index=True,
     )
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Store(models.Model):
@@ -59,7 +68,7 @@ class Store(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class City(models.Model):
@@ -71,6 +80,9 @@ class City(models.Model):
         unique=True,
         db_index=True,
     )
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Categories(models.Model):
@@ -103,6 +115,7 @@ class Categories(models.Model):
 
 
 class Profit(models.Model):
+    """Модель выручки для продукта."""
     date = models.DateField(
         verbose_name='Дата продажи',
     )
@@ -121,6 +134,9 @@ class Profit(models.Model):
     money_promo = models.FloatField(
         verbose_name='Продажи промо в РУБ',
     )
+
+    def __str__(self):
+        return f'Продажи за {self.date}'
 
 
 class Sales(models.Model):
@@ -177,6 +193,8 @@ class Stores(models.Model):
 
 
 class ProductPrediction(models.Model):
+    """Модель ожидаемого кол-ва продажи продукта."""
+
     date = models.DateField(
         verbose_name='Дата продажи товара'
     )
@@ -185,24 +203,25 @@ class ProductPrediction(models.Model):
     )
 
     def __str__(self):
-        return (f'{self.date}:{self.units}')
+        return (f'{self.date}: {self.units}')
 
 
 class Prediction(models.Model):
+    """Модель прогноза для продукта."""
+
     product = models.ForeignKey(
         Product,
         on_delete=models.DO_NOTHING,
-        verbose_name='Название продукта',
+        verbose_name='Название прогнозируемого продукта',
     )
-    predictions = models.ForeignKey(
+    predictions = models.ManyToManyField(
         ProductPrediction,
-        on_delete=models.DO_NOTHING,
         verbose_name='Прогноз'
     )
 
 
 class Forecast(models.Model):
-    """Модель прогноза."""
+    """Модель прогноза для магазина и продукта."""
 
     store = models.ForeignKey(
         Store,
@@ -215,7 +234,7 @@ class Forecast(models.Model):
         verbose_name='Название продукта'
     )
     date = models.DateField(
-        verbose_name='Дата прогноза',
+        verbose_name='Дата создания прогноза',
     )
     product_prediction = models.ManyToManyField(
         ProductPrediction,
