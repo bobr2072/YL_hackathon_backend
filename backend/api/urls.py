@@ -15,6 +15,6 @@ router.register('forecast', ForecastViewSet, basename='forecast')
 
 urlpatterns = [
     path('v0/', include(router.urls)),
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui, name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger'), name='schema-swagger-ui'),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.as_view(), name='schema-json'),
 ]
