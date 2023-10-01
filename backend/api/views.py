@@ -1,10 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, permissions, viewsets
+from rest_framework import filters, viewsets
 
 from api.models import Categories, Forecast, Sales, Stores
-from api.serializers import (CategoriesSerializer, ForecastGetSerializer,
-                             ForecastPostSerializer, SalesSerializer,
-                             ShopsSerializer)
+from api.serializers import (CategoriesSerializer, ForecastSerializer,
+                             SalesSerializer, StoresSerializer)
 
 
 class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
@@ -18,21 +17,14 @@ class SalesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['saled_product', 'store']
+    filterset_fields = ['product', 'store']
 
 
 class StoresViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Stores.objects.all()
-    serializer_class = ShopsSerializer
+    serializer_class = StoresSerializer
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
     queryset = Forecast.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method in permissions.SAFE_METHODS:
-            return ForecastGetSerializer
-        return ForecastPostSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(product=self.request.POST.get('predictions.product'))
+    serializer_class = ForecastSerializer
