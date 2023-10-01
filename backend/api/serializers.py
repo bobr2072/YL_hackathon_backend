@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import (Categories, Forecast, Profit, Sales, Stores)
+from api.models import Categories, Forecast, Profit, Sales, Stores
 
 
 class ProfitSerializer(serializers.ModelSerializer):
@@ -41,6 +41,8 @@ class StoresSerializer(serializers.ModelSerializer):
 
 class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор просмотра прогноза."""
+    store = serializers.CharField(source='store.store_name')
+    product = serializers.CharField(source='product.product')
 
     class Meta:
         model = Forecast

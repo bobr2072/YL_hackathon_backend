@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.models import (Categories, Forecast, Profit, Sales, Stores)
+from api.models import Categories, Forecast, Profit, Sales, Stores
 
 
 @admin.register(Sales)

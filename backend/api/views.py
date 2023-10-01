@@ -2,9 +2,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from api.models import Categories, Forecast, Sales, Stores
-from api.serializers import (CategoriesSerializer,
-                             ForecastSerializer, SalesSerializer,
-                             StoresSerializer)
+from api.serializers import (CategoriesSerializer, ForecastSerializer,
+                             SalesSerializer, StoresSerializer)
 
 
 class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
