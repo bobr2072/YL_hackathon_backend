@@ -14,15 +14,17 @@ class ProfitSerializer(serializers.ModelSerializer):
 
 class SalesSerializer(serializers.ModelSerializer):
     """Сериализатор продаж."""
+    store = serializers.CharField(source='store.store_name')
     profit = ProfitSerializer(read_only=True, many=True)
 
     class Meta:
         model = Sales
-        fields = ('store', 'product', 'profit')
+        fields = ('store', 'product_name', 'profit')
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор категорий."""
+    product = serializers.CharField(source='product.product_name')
 
     class Meta:
         model = Categories
