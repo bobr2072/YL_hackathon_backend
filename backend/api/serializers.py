@@ -41,8 +41,6 @@ class StoresSerializer(serializers.ModelSerializer):
 
 class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор просмотра прогноза."""
-    store = serializers.CharField(source='store.store_name')
-    product = serializers.CharField(source='product.product')
 
     class Meta:
         model = Forecast
