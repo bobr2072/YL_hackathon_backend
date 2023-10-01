@@ -64,7 +64,7 @@ class Sales(models.Model):
     )
     profit = models.ManyToManyField(
         Profit,
-        verbose_name='Информация о продажах товара',
+        verbose_name='Информация о продажах товара'
     )
 
     def __str__(self) -> str:
@@ -122,4 +122,4 @@ class Forecast(models.Model):
     forecast_date = models.DateField(
         verbose_name='Дата создания прогноза',
     )
-    forecast = models.JSONField()
+    forecast = models.JSONField(default=dict)
