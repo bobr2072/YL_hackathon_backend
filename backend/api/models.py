@@ -11,7 +11,6 @@ class Categories(models.Model):
     group = models.CharField(
         max_length=32,
         verbose_name='Группа',
-
     )
     category = models.CharField(
         max_length=32,
