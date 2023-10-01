@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from api.models import (Categories, Forecast, Prediction, Product,
-                        ProductPrediction, Profit, Sales, Store, Stores)
+from api.models import (Categories, Forecast, Prediction, ProductPrediction,
+                        Profit, Sales, Stores, Store, Product)
 
 
 class ProfitSerializer(serializers.ModelSerializer):
@@ -37,61 +37,63 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 
 class ProductForPredictionSerializer(serializers.ModelSerializer):
+    units = serializers.IntegerField()
+    date = serializers.DateField()
 
     class Meta:
         model = ProductPrediction
         fields = ['date', 'units']
 
-    def create(self, validated_data):
-        return ProductPrediction.objects.create(**validated_data)
+
+class ProductSerialiazer(serializers.ModelSerializer):
+    id = serializers.IntegerField(write_only=True)
+    name = serializers.CharField()
+
+    class Meta:
+        model = Product
+        fields = ('id', 'name')
 
 
 class PredictionSerializer(serializers.ModelSerializer):
-    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
-    prediction = ProductForPredictionSerializer()
+    product = ProductSerialiazer()
+    predictions = ProductForPredictionSerializer()
 
     class Meta:
         model = Prediction
-        fields = ['product', 'prediction']
+        fields = ['product', 'predictions']
 
-    def create(self, validated_data):
-        return Prediction.objects.create(**validated_data)
+    def to_internal_value(self, data):
+        product_data = data.get('product')
+        if isinstance(product_data, Product):
+            data['product'] = product_data.pk
+        obj = super(PredictionSerializer, self).to_internal_value(data)
+        return obj
 
 
 class ForecastPostSerializer(serializers.ModelSerializer):
     """Сериализатор записи прогноза."""
     store = serializers.PrimaryKeyRelatedField(queryset=Store.objects.all())
     predictions = PredictionSerializer()
+    product = ProductSerialiazer()
 
     class Meta:
         model = Forecast
-        fields = ['store', 'date', 'predictions']
+        fields = ['store', 'date', 'predictions', 'product']
 
-    def add_product_predictions(self, date, units):
-        ProductPrediction.objects.bulk_create(
-            [ProductPrediction(
-                date=date, units=units)
-             ]
-        )
-
-    def add_prediction(self, product, model):
-        model = self.add_product_predictions
-        Prediction.objects.create(
-            [Prediction(
-                product=Product.objects.get(id=product['id']),
-                model=model)
-             ]
-        )
-
-    def create(self, data):
-        predictions = data.pop('predictions')
-        store = data.pop('store')
-        product = data.pop('product')
-        date = data.pop('date')
-        forecast = Forecast.objects.create(store=store, product=product, date=date)
-        forecast.predictions.set(predictions)
-        self.add_prediction(product=product, model=predictions)
+    def create(self, validated_data):
+        predictions_data = validated_data.pop('predictions')
+        forecast = Forecast.objects.create(**validated_data)
+        forecast.predictions.set(predictions_data)
         return forecast
+
+# for prediction_data in predictions_data:
+# prediction = Prediction(forecast=forecast)
+# prediction_serializer = PredictionSerializer(prediction, data=prediction_data)
+# if prediction_serializer.is_valid():
+#  prediction_serializer.save()
+# else:
+# raise serializers.ValidationError(prediction_serializer.errors)
+# return forecast
 
 
 class ForecastGetSerializer(serializers.ModelSerializer):

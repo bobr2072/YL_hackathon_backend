@@ -33,6 +33,3 @@ class ForecastViewSet(viewsets.ModelViewSet):
         if self.request.method in permissions.SAFE_METHODS:
             return ForecastGetSerializer
         return ForecastPostSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(product=self.request.POST.get('predictions.product'))
