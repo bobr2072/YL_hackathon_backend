@@ -29,15 +29,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
         fields = ('product', 'group', 'category', 'subcategory', 'amount')
 
 
-class ForecastSerializer(serializers.ModelSerializer):
-    """Сериализатор просмотра прогноза."""
-
-    class Meta:
-        model = Forecast
-        fields = ['store', 'product', 'forecast_date', 'forecast']
-
-
-class ShopsSerializer(serializers.ModelSerializer):
+class StoresSerializer(serializers.ModelSerializer):
     """Сериализатор магазинов."""
 
     class Meta:
@@ -45,3 +37,11 @@ class ShopsSerializer(serializers.ModelSerializer):
         fields = ('store_name', 'city', 'division',
                   'type_format', 'loc', 'size',
                   'is_active')
+
+
+class ForecastSerializer(serializers.ModelSerializer):
+    """Сериализатор просмотра прогноза."""
+
+    class Meta:
+        model = Forecast
+        fields = ['store', 'product', 'forecast_date', 'forecast']

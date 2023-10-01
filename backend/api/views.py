@@ -4,7 +4,7 @@ from rest_framework import filters, viewsets
 from api.models import Categories, Forecast, Sales, Stores
 from api.serializers import (CategoriesSerializer,
                              ForecastSerializer, SalesSerializer,
-                             ShopsSerializer)
+                             StoresSerializer)
 
 
 class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
@@ -23,7 +23,7 @@ class SalesViewSet(viewsets.ReadOnlyModelViewSet):
 
 class StoresViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Stores.objects.all()
-    serializer_class = ShopsSerializer
+    serializer_class = StoresSerializer
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
