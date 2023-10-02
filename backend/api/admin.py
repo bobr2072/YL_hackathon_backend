@@ -5,7 +5,7 @@ from api.models import Categories, Forecast, Profit, Sales, Stores
 
 @admin.register(Sales)
 class SalesAdmin(admin.ModelAdmin):
-    ordering = ('id',)
+    ordering = ('product_name',)
     list_display = ('product_name', 'store', 'profit_list')
     filter_horizontal = ('profit',)
 
@@ -16,7 +16,7 @@ class SalesAdmin(admin.ModelAdmin):
 
 @admin.register(Stores)
 class StoresAdmin(admin.ModelAdmin):
-    ordering = ('id',)
+    ordering = ('store_name',)
     list_display = ('store_name', 'city', 'division', 'type_format', 'loc', 'size', 'is_active')
 
 
