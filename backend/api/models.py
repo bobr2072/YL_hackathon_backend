@@ -38,6 +38,7 @@ class Stores(models.Model):
 
 class Profit(models.Model):
     """Модель выручки для продукта."""
+
     date = models.DateField(
         verbose_name='Дата продажи',
     )
