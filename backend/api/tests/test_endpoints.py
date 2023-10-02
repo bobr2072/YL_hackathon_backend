@@ -12,7 +12,19 @@ class CategoriesModelTestCase(TestCase):
     def setUp(self):
 
         self.client = APIClient()
-        self.product = 'test product'
+        self.store = Stores.objects.create(
+            store_name='test store',
+            city='test city',
+            division='test division',
+            type_format=1,
+            loc=12345,
+            size=1000,
+            is_active=True
+        )
+        self.product = Sales.objects.create(
+            product_name='test product',
+            store=self.store,
+        )
         self.group = 'test group'
         self.category = 'test category'
         self.subcategory = 'test subcategory'
@@ -58,8 +70,16 @@ class SalesModelTestCase(TestCase):
     def setUp(self):
 
         self.client = APIClient()
-        self.product = 'test product'
-        self.store = 'test store'
+        self.product_name = 'test product'
+        self.store = Stores.objects.create(
+            store_name='test store',
+            city='test city',
+            division='test division',
+            type_format=1,
+            loc=12345,
+            size=1000,
+            is_active=True
+        )
         self.profit = Profit.objects.create(
             date='2023-09-30',
             type=True,
@@ -72,7 +92,7 @@ class SalesModelTestCase(TestCase):
     def test_sales(self):
 
         sales = Sales(
-            product=self.product,
+            product_name=self.product_name,
             store=self.store,
         )
         sales.save()
@@ -81,7 +101,7 @@ class SalesModelTestCase(TestCase):
 
         saved_sales = Sales.objects.get(id=sales.id)
 
-        self.assertEqual(saved_sales.product, self.product)
+        self.assertEqual(saved_sales.product_name, self.product_name)
         self.assertEqual(saved_sales.store, self.store)
 
         self.assertEqual(saved_sales.profit.count(), 1)
@@ -90,7 +110,7 @@ class SalesModelTestCase(TestCase):
     def test_sales_get(self):
 
         sales = Sales(
-            product=self.product,
+            product_name=self.product_name,
             store=self.store
         )
         sales.save()
@@ -108,15 +128,16 @@ class StoresModelTestCase(TestCase):
     def setUp(self):
 
         self.client = APIClient()
-        self.store = 'test store'
+        self.store_name = 'test store'
         self.city = 'test city'
+        self.division = 'test division'
 
     def test_stores(self):
 
         store = Stores(
-            store_name=self.store,
+            store_name=self.store_name,
             city=self.city,
-            division='test division',
+            division=self.division,
             type_format=1,
             loc=1,
             size=10,
@@ -126,7 +147,7 @@ class StoresModelTestCase(TestCase):
 
         saved_store = Stores.objects.get(id=store.id)
 
-        self.assertEqual(saved_store.store_name, self.store)
+        self.assertEqual(saved_store.store_name, self.store_name)
         self.assertEqual(saved_store.city, self.city)
         self.assertEqual(saved_store.division, 'test division')
         self.assertEqual(saved_store.type_format, 1)
@@ -137,9 +158,9 @@ class StoresModelTestCase(TestCase):
     def test_stores_get(self):
 
         store = Stores(
-            store_name=self.store,
+            store_name=self.store_name,
             city=self.city,
-            division='test division',
+            division=self.division,
             type_format=1,
             loc=12345,
             size=1000,
@@ -167,7 +188,10 @@ class ForecastModelTestCase(TestCase):
             size=10,
             is_active=True
         )
-        self.product = Sales.objects.create(product='test product')
+        self.product = Sales.objects.create(
+            product_name='test product',
+            store=self.store,
+        )
         self.forecast_date = '2023-09-30'
         self.forecast = '''
         {
