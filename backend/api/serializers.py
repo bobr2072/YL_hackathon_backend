@@ -8,8 +8,8 @@ class ProfitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profit
-        fields = ['date', 'type', 'units',
-                  'units_promo', 'money', 'money_promo']
+        fields = ('date', 'type', 'units',
+                  'units_promo', 'money', 'money_promo')
 
 
 class SalesSerializer(serializers.ModelSerializer):
@@ -43,9 +43,17 @@ class StoresSerializer(serializers.ModelSerializer):
 
 class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор просмотра прогноза."""
-    store = serializers.CharField(source='store.store_name')
-    product = serializers.CharField(source='product.product_name')
+    store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Sales.objects.all())
 
     class Meta:
         model = Forecast
-        fields = ['store', 'product', 'forecast_date', 'forecast']
+        fields = ('store', 'product', 'forecast_date', 'forecast')
+
+    def create(self, validated_data):
+
+        store_data = validated_data.pop('store')
+        product_data = validated_data.pop('product')
+
+        forecast = Forecast.objects.create(store=store_data, product=product_data, **validated_data)
+        return forecast

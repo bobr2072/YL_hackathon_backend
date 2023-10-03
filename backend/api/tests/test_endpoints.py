@@ -99,7 +99,7 @@ class SalesModelTestCase(TestCase):
 
         sales.profit.set([self.profit])
 
-        saved_sales = Sales.objects.get(id=sales.id)
+        saved_sales = Sales.objects.get(product_name=sales.product_name)
 
         self.assertEqual(saved_sales.product_name, self.product_name)
         self.assertEqual(saved_sales.store, self.store)
@@ -145,7 +145,7 @@ class StoresModelTestCase(TestCase):
         )
         store.save()
 
-        saved_store = Stores.objects.get(id=store.id)
+        saved_store = Stores.objects.get(store_name=store.store_name)
 
         self.assertEqual(saved_store.store_name, self.store_name)
         self.assertEqual(saved_store.city, self.city)
