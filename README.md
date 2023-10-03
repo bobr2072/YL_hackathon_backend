@@ -15,20 +15,20 @@ docker-compose up -d
 
 ### Миграции
 ```
-docker-compose run backend python manage.py makemigrations
+docker-compose exec backend python manage.py makemigrations
 ```
 ```
-docker-compose run backend python manage.py migrate
+docker-compose exec backend python manage.py migrate
 ```
 
 ### Создание суперпользователя
 ```
-docker-compose run backend python manage.py createsuperuser
+docker-compose exec backend python manage.py createsuperuser
 ```
 
 ### Сбор статики
 ```
-docker-compose run backend python manage.py collectstatic
+docker-compose exec backend python manage.py collectstatic
 ```
 
 
