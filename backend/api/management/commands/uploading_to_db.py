@@ -1,5 +1,5 @@
-import sqlite3 as sql
 import csv
+import sqlite3 as sql
 
 from django.core.management.base import BaseCommand
 
