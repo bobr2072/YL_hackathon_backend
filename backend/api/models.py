@@ -7,6 +7,7 @@ class Stores(models.Model):
     store_name = models.CharField(
         max_length=32,
         verbose_name='Название магазина',
+        primary_key=True
     )
     city = models.CharField(
         max_length=32,
@@ -68,6 +69,7 @@ class Sales(models.Model):
     product_name = models.CharField(
         max_length=32,
         verbose_name='Название товара',
+        primary_key=True
     )
     store = models.ForeignKey(
         Stores,

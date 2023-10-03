@@ -1,8 +1,7 @@
-import sqlite3 as sql
-import os
 import csv
+import os
+import sqlite3 as sql
 
-# нужен путь до базы
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "db.sqlite3")
 conn = sql.connect(db_path)

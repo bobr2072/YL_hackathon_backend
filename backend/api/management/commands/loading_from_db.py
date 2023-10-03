@@ -1,7 +1,8 @@
 from csv import DictReader
 
 from django.core.management.base import BaseCommand
-from api.models import Stores, Profit, Sales, Categories, Forecast
+
+from api.models import Categories, Forecast, Profit, Sales, Stores
 
 
 class Command(BaseCommand):
