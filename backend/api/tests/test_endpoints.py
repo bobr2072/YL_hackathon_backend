@@ -30,6 +30,7 @@ class CategoriesModelTestCase(TestCase):
         self.subcategory = 'test subcategory'
 
     def test_categories(self):
+        """Тест создания категорий."""
 
         category = Categories(
             product=self.product,
@@ -49,6 +50,7 @@ class CategoriesModelTestCase(TestCase):
         self.assertEqual(saved_category.amount, 10)
 
     def test_categories_get(self):
+        """Тест get метода категорий."""
 
         category = Categories(
             product=self.product,
@@ -90,6 +92,7 @@ class SalesModelTestCase(TestCase):
         )
 
     def test_sales(self):
+        """Тест создания продаж товаров."""
 
         sales = Sales(
             product_name=self.product_name,
@@ -108,6 +111,7 @@ class SalesModelTestCase(TestCase):
         self.assertEqual(saved_sales.profit.first(), self.profit)
 
     def test_sales_get(self):
+        """Тест get метода продаж товаров."""
 
         sales = Sales(
             product_name=self.product_name,
@@ -133,6 +137,7 @@ class StoresModelTestCase(TestCase):
         self.division = 'test division'
 
     def test_stores(self):
+        """Тест создания магазинов."""
 
         store = Stores(
             store_name=self.store_name,
@@ -156,6 +161,7 @@ class StoresModelTestCase(TestCase):
         self.assertTrue(saved_store.is_active)
 
     def test_stores_get(self):
+        """Тест get метода магазина."""
 
         store = Stores(
             store_name=self.store_name,
@@ -200,6 +206,8 @@ class ForecastModelTestCase(TestCase):
         '''
 
     def test_forecast(self):
+        """Тест создания прогноза."""
+
         forecast_date = datetime.date.fromisoformat(self.forecast_date)
 
         forecast = Forecast(
@@ -218,6 +226,7 @@ class ForecastModelTestCase(TestCase):
         self.assertEqual(saved_forecast.forecast, self.forecast)
 
     def test_forecast_get(self):
+        """Тест get метода прогноза."""
 
         forecast = Forecast(
             store=self.store,
