@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
 
+from api.models import Stores
+
 username_validator = RegexValidator(r'^[\w.@+-]+\Z')
 
 
@@ -10,8 +12,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'username',
-        'first_name',
-        'last_name',
+        'position',
     ]
     username = models.CharField(
         max_length=150,
@@ -22,14 +23,14 @@ class User(AbstractUser):
         max_length=254,
         unique=True,
         verbose_name='Почта')
-    first_name = models.CharField(
+    shopping_mall = models.ForeignKey(
+        Stores,
+        on_delete=models.DO_NOTHING,
+        verbose_name='ТК')
+    position = models.CharField(
         max_length=150,
         blank=True,
-        verbose_name='Имя')
-    last_name = models.CharField(
-        max_length=150,
-        blank=True,
-        verbose_name='Фамилия')
+        verbose_name='Должность')
     password = models.CharField(
         max_length=150,
         verbose_name='Пароль')

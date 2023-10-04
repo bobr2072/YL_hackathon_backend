@@ -35,6 +35,32 @@ services:
 
     depends_on:
       - backend
+    
+    frontend:
+      build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      ports:
+      - "3000:8000"
+      volumes:
+      - ../frontend/:/app/result_build/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
+
+  redis:
+    image: redis:7.0.5-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: ../backend
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    links:
+      - redis
+    depends_on:
+      - redis
 
 volumes:
   static_value:
