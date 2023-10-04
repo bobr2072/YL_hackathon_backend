@@ -61,7 +61,7 @@ class CategoriesModelTestCase(TestCase):
         )
         category.save()
 
-        response = self.client.get('/api/v0/categories', follow=True)
+        response = self.client.get('/api/categories', follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
@@ -121,7 +121,7 @@ class SalesModelTestCase(TestCase):
 
         sales.profit.set([self.profit])
 
-        response = self.client.get('/api/v0/sales', follow=True)
+        response = self.client.get('/api/sales', follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
@@ -174,7 +174,7 @@ class StoresModelTestCase(TestCase):
         )
         store.save()
 
-        response = self.client.get('/api/v0/shops', follow=True)
+        response = self.client.get('/api/shops', follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
@@ -236,7 +236,7 @@ class ForecastModelTestCase(TestCase):
         )
         forecast.save()
 
-        response = self.client.get('/api/v0/forecast', follow=True)
+        response = self.client.get('/api/forecast', follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
