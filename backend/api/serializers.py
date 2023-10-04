@@ -4,6 +4,8 @@ from api.models import Categories, Forecast, Profit, Sales, Stores
 
 
 class ProfitSerializer(serializers.ModelSerializer):
+    """Сериализатор выручки."""
+
     type = serializers.IntegerField()
 
     class Meta:
@@ -13,7 +15,8 @@ class ProfitSerializer(serializers.ModelSerializer):
 
 
 class SalesSerializer(serializers.ModelSerializer):
-    """Сериализатор продаж."""
+    """Сериализатор продаж товаров."""
+
     store = serializers.CharField(source='store.store_name')
     profit = ProfitSerializer(read_only=True, many=True)
 
@@ -23,7 +26,8 @@ class SalesSerializer(serializers.ModelSerializer):
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
-    """Сериализатор категорий."""
+    """Сериализатор категорий товаров."""
+
     product = serializers.CharField(source='product.product_name')
 
     class Meta:
@@ -42,7 +46,8 @@ class StoresSerializer(serializers.ModelSerializer):
 
 
 class ForecastSerializer(serializers.ModelSerializer):
-    """Сериализатор просмотра прогноза."""
+    """Сериализатор прогноза."""
+
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
     product = serializers.PrimaryKeyRelatedField(queryset=Sales.objects.all())
 
