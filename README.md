@@ -28,7 +28,7 @@ docker-compose exec backend python manage.py createsuperuser
 
 ### Сбор статики
 ```
-docker-compose exec backend python manage.py collectstatic
+docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
 

@@ -7,6 +7,8 @@ from api.serializers import (CategoriesSerializer, ForecastSerializer,
 
 
 class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вььюсет категорий товаров."""
+
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
     filter_backends = [filters.SearchFilter]
@@ -14,6 +16,8 @@ class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class SalesViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вььюсет продаж товаров."""
+
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
     filter_backends = [DjangoFilterBackend]
@@ -21,6 +25,8 @@ class SalesViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class StoresViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вььюсет магазинов."""
+
     queryset = Stores.objects.all()
     serializer_class = StoresSerializer
     filter_backends = [filters.SearchFilter]
@@ -28,6 +34,8 @@ class StoresViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
+    """Вььюсет прогноза."""
+
     queryset = Forecast.objects.all()
     serializer_class = ForecastSerializer
     filter_backends = [filters.SearchFilter]
