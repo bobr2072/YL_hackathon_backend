@@ -35,14 +35,14 @@ services:
 
     depends_on:
       - backend
-
-  frontend:
-    build:
+    
+    frontend:
+      build:
       context: ../frontend
       dockerfile: Dockerfile
-    ports:
+      ports:
       - "3000:8000"
-    volumes:
+      volumes:
       - ../frontend/:/app/result_build/
       - static_value:/var/html/static/
       - media_value:/var/html/media/
