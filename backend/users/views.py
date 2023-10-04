@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class UserViewSet(UserViewSet):
-    """Вевьюсет пользователя."""
+    """Вььюсет пользователя."""
+
     queryset = User.objects.all()
     serializer_class = UserReadSerializer
