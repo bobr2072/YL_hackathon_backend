@@ -25,3 +25,4 @@ sqlparse==0.4.4
 uritemplate==4.1.1
 urllib3==2.0.5
 websocket-client==1.6.3
+celery[redis]==5.2.7
