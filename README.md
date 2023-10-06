@@ -6,7 +6,6 @@ Backend для проекта хакатона "Яндекс.Практикум"
 - Анастасия Пушкарная(https://github.com/Anastasia7Si)
 
 Технологии:
-
 Python 3.11
 Django 4.2
 Django REST framework 3.14
