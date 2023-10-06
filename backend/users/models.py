@@ -26,6 +26,7 @@ class User(AbstractUser):
     shopping_mall = models.ForeignKey(
         Stores,
         on_delete=models.DO_NOTHING,
+        null=True,
         verbose_name='ТК')
     position = models.CharField(
         max_length=150,
