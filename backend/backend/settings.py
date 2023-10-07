@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'drf_yasg',
+    'corsheaders',
 
     'api',
     'users',
@@ -41,6 +42,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -125,3 +129,16 @@ DJOSER = {
 }
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+]
