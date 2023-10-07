@@ -6,7 +6,6 @@ Backend для проекта хакатона "Яндекс.Практикум"
 - Анастасия Пушкарная(https://github.com/Anastasia7Si)
 
 Технологии:
-
 Python 3.11
 Django 4.2
 Django REST framework 3.14
@@ -37,26 +36,14 @@ cd infra/
 DJANGO_SECRET_KEY= 'django-insecure-example-seckret-key'
 ```
 
-### Запуск контейнеров
+### Запуск проекта
 ```
 docker-compose up -d
-```
-
-### Миграции
-```
-docker-compose exec backend python manage.py makemigrations
-docker-compose exec backend python manage.py migrate
 ```
 
 ### Создание суперпользователя
 ```
 docker-compose exec backend python manage.py createsuperuser
-```
-
-### Сбор статики
-```
-docker-compose exec backend python manage.py collectstatic --no-input
-docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /backend_static/static/
 ```
 
 ### Загрузка данных в базу из csv-файла и из базы в csv-файл
