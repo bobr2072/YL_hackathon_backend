@@ -88,6 +88,11 @@ class Sales(models.Model):
 class Categories(models.Model):
     """Модель категорий."""
 
+    store = models.ForeignKey(
+        Stores,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Магазин продаж',
+    )
     product = models.ForeignKey(
         Sales,
         on_delete=models.DO_NOTHING,
