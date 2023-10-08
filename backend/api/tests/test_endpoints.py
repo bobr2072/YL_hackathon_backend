@@ -33,6 +33,7 @@ class CategoriesModelTestCase(TestCase):
         """Тест создания категорий."""
 
         category = Categories(
+            store=self.store,
             product=self.product,
             group=self.group,
             category=self.category,
@@ -53,6 +54,7 @@ class CategoriesModelTestCase(TestCase):
         """Тест get метода категорий."""
 
         category = Categories(
+            store=self.store,
             product=self.product,
             group=self.group,
             category=self.category,
