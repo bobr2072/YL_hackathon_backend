@@ -53,6 +53,11 @@ docker-compose exec backend python manage.py collectstatic --no-input
 docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /backend_static/static/
 ```
 
+### Загрузка данных
+```
+docker-compose exec backend python manage.py loaddata dump.json
+```
+
 ### Загрузка данных в базу из csv-файла и из базы в csv-файл
 ```
 docker-compose exec backend python manage.py uploading_to_db
