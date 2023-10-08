@@ -11,10 +11,6 @@ router.register('users', UserViewSet, basename='users')
 urlpatterns = [
     path('', include(router.urls)),
     path('', include('djoser.urls')),
-    # Запрос на получение токена http://127.0.0.1:8000/api/auth/token/login/ с полями email и password
+    path('api-token-auth/', CustomAuthToken.as_view()),
     path('auth/', include('djoser.urls.authtoken')),
-]
-
-urlpatterns += [
-    path('api-token-auth/', CustomAuthToken.as_view())
 ]
