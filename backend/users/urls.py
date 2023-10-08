@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import UserViewSet
+from .views import UserViewSet, CustomAuthToken
 
 app_name = 'users'
 
@@ -13,4 +13,8 @@ urlpatterns = [
     path('', include('djoser.urls')),
     # Запрос на получение токена http://127.0.0.1:8000/api/auth/token/login/ с полями email и password
     path('auth/', include('djoser.urls.authtoken')),
+]
+
+urlpatterns += [
+    path('api-token-auth/', CustomAuthToken.as_view())
 ]

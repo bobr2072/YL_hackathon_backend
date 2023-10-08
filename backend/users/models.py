@@ -9,10 +9,10 @@ username_validator = RegexValidator(r'^[\w.@+-]+\Z')
 
 class User(AbstractUser):
     """Модель пользователя."""
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
-        'username',
         'position',
+        'email'
     ]
     username = models.CharField(
         max_length=150,
