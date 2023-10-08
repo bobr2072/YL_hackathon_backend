@@ -47,6 +47,12 @@ docker-compose up -d
 docker-compose exec backend python manage.py createsuperuser
 ```
 
+### Сбор статики
+```
+docker-compose exec backend python manage.py collectstatic --no-input
+docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+```
+
 ### Загрузка данных в базу из csv-файла и из базы в csv-файл
 ```
 docker-compose exec backend python manage.py uploading_to_db
