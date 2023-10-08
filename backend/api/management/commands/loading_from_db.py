@@ -1,6 +1,7 @@
 from csv import DictReader
 
 from django.core.management.base import BaseCommand
+
 from api.models import Profit
 
 
