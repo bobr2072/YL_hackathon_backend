@@ -7,7 +7,7 @@ services:
       context: ../frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3000:5173"
     volumes:
       - ../frontend/:/app/result_build/
       - static_value:/var/html/static/
