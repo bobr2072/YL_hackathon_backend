@@ -36,11 +36,11 @@ cd infra/
 ```
 DJANGO_SECRET_KEY= 'django-insecure-example-seckret-key'
 ```
-### Запуск проекта
+Запуск проекта
 ```
 docker-compose up -d
 ```
-### Создание суперпользователя
+Создание суперпользователя
 ```
 docker-compose exec backend python manage.py createsuperuser
 ```
@@ -72,6 +72,10 @@ python manage.py runserver
 ```
 docker-compose exec backend python manage.py uploading_to_db
 docker-compose exec backend python manage.py loading_from_db
+```
+ Создание суперпользователя
+```
+python manage.py createsuperuser
 ```
 ## К проекту подключен Swagger, в ктором можно ознакомиться с  эндпоинтами и методами, а также с примерами запросов, ответов и кода:
 ```
