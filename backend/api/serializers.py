@@ -28,11 +28,12 @@ class SalesSerializer(serializers.ModelSerializer):
 class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор категорий товаров."""
 
+    store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
     product = serializers.CharField(source='product.product_name')
 
     class Meta:
         model = Categories
-        fields = ('product', 'group', 'category', 'subcategory', 'amount')
+        fields = ('store', 'product', 'group', 'category', 'subcategory', 'amount')
 
 
 class StoresSerializer(serializers.ModelSerializer):
