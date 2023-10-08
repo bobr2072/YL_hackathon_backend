@@ -22,7 +22,7 @@ class StoresAdmin(admin.ModelAdmin):
 
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
-    ordering = ('id',)
+    ordering = ('product',)
     list_display = ('product', 'group', 'category', 'subcategory', 'amount')
 
 

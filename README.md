@@ -73,6 +73,18 @@ python manage.py runserver
 docker-compose exec backend python manage.py uploading_to_db
 docker-compose exec backend python manage.py loading_from_db
 ```
+
+### Запуск тестов
+Запускаются при пуше и pull request, а также через терминал
+```
+python manage.py test api.tests
+```
+
+### Запуск тестов
+Запускаются при пуше и pull request, а также через терминал
+```
+python manage.py test api.tests
+```
 ## К проекту подключен Swagger, в ктором можно ознакомиться с  эндпоинтами и методами, а также с примерами запросов, ответов и кода:
 ```
 http://127.0.0.1:8000/api/swagger/
