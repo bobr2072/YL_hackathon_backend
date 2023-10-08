@@ -63,10 +63,10 @@ class Profit(models.Model):
         return f'Продажи за {self.date}'
 
 
-class Sales(models.Model):
-    """Модель продаж."""
+class Categories(models.Model):
+    """Модель категорий."""
 
-    product_name = models.CharField(
+    product = models.CharField(
         max_length=32,
         verbose_name='Название товара'
     )
@@ -74,28 +74,6 @@ class Sales(models.Model):
         Stores,
         on_delete=models.DO_NOTHING,
         verbose_name='Магазин продаж',
-    )
-    profit = models.ManyToManyField(
-        Profit,
-        verbose_name='Информация о продажах товара'
-    )
-
-    def __str__(self) -> str:
-        return f'{self.product_name}'
-
-
-class Categories(models.Model):
-    """Модель категорий."""
-
-    store = models.ForeignKey(
-        Stores,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Магазин продаж',
-    )
-    product = models.ForeignKey(
-        Sales,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Название товара',
     )
     group = models.CharField(
         max_length=32,
@@ -113,6 +91,34 @@ class Categories(models.Model):
         verbose_name='Количество товара'
     )
 
+    def __str__(self) -> str:
+        return f'{self.product}'
+
+
+class Sales(models.Model):
+    """Модель продаж."""
+
+    product_name = models.ForeignKey(
+        Categories,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Название товара'
+    )
+    store = models.ForeignKey(
+        Stores,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Магазин продаж',
+    )
+    profit = models.ManyToManyField(
+        Profit,
+        verbose_name='Информация о продажах товара'
+    )
+
+    def __str__(self) -> str:
+        return f'{self.product_name}'
+
+    class Meta:
+        unique_together = ('product_name', 'store')
+
 
 class Forecast(models.Model):
     """Модель прогноза для магазина и продукта."""
@@ -123,7 +129,7 @@ class Forecast(models.Model):
         verbose_name='Прогноз для магазина'
     )
     product = models.ForeignKey(
-        Sales,
+        Categories,
         on_delete=models.DO_NOTHING,
         verbose_name='Название продукта'
     )

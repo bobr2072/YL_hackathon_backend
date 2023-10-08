@@ -19,6 +19,7 @@ class SalesSerializer(serializers.ModelSerializer):
 
     store = serializers.CharField(source='store.store_name')
     profit = ProfitSerializer(read_only=True, many=True)
+    product_name = serializers.CharField(source='product_name.product')
 
     class Meta:
         model = Sales
@@ -29,7 +30,6 @@ class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор категорий товаров."""
 
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
-    product = serializers.CharField(source='product.product_name')
 
     class Meta:
         model = Categories
@@ -50,7 +50,7 @@ class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор прогноза."""
 
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
-    product = serializers.PrimaryKeyRelatedField(queryset=Sales.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Categories.objects.all())
 
     class Meta:
         model = Forecast
