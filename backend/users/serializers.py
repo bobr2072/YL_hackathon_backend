@@ -8,8 +8,8 @@ class UserCreateSerializer(UserCreateSerializer):
     """Сериализатор создания пользователя."""
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name',
-                  'last_name', 'password')
+        fields = ('id', 'username', 'email', 'shopping_mall',
+                  'position', 'password')
 
 
 class UserReadSerializer(UserSerializer):
@@ -18,4 +18,4 @@ class UserReadSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email',
-                  'first_name', 'last_name')
+                  'shopping_mall', 'position')
