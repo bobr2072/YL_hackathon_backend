@@ -68,8 +68,7 @@ class Sales(models.Model):
 
     product_name = models.CharField(
         max_length=32,
-        verbose_name='Название товара',
-        primary_key=True
+        verbose_name='Название товара'
     )
     store = models.ForeignKey(
         Stores,
