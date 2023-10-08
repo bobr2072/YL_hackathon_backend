@@ -63,3 +63,9 @@ docker-compose exec backend python manage.py loaddata dump.json
 docker-compose exec backend python manage.py uploading_to_db
 docker-compose exec backend python manage.py loading_from_db
 ```
+
+### Запуск тестов
+Запускаются при пуше и pull request, а также через терминал
+```
+python manage.py test api.tests
+```
