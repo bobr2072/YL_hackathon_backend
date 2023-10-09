@@ -12,7 +12,7 @@ class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['product__product_name']
+    search_fields = ['product']
 
 
 class SalesViewSet(viewsets.ReadOnlyModelViewSet):
@@ -21,7 +21,7 @@ class SalesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product_name', 'store']
+    filterset_fields = ['product_name__product', 'store']
 
 
 class StoresViewSet(viewsets.ReadOnlyModelViewSet):

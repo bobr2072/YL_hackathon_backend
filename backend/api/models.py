@@ -92,7 +92,7 @@ class Categories(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.product}'
+        return self.product
 
     class Meta:
         unique_together = ('product', 'store')

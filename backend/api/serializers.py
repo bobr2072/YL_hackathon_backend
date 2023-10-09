@@ -50,7 +50,7 @@ class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор прогноза."""
 
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
-    product = serializers.PrimaryKeyRelatedField(queryset=Categories.objects.all())
+    product = serializers.StringRelatedField()
 
     class Meta:
         model = Forecast
