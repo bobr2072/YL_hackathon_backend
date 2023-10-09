@@ -4,7 +4,7 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from api.models import Categories, Forecast, Stores
+from api.models import Forecast, Product, Stores
 from api.serializers import ForecastSerializer
 
 
@@ -22,14 +22,7 @@ class ForecastModelTestCase(TestCase):
             size=10,
             is_active=True
         )
-        self.product = Categories.objects.create(
-            store=self.store,
-            product='test product',
-            group='test group',
-            category='test category',
-            subcategory='test subcategory',
-            amount=10
-        )
+        self.product = Product.objects.create(name='test product')
         self.forecast_date = datetime.date.fromisoformat('2023-09-30')
         self.forecast = '''
         {
@@ -76,7 +69,7 @@ class ForecastModelTestCase(TestCase):
 
         forecast_data = {
             'store': self.store,
-            'product': self.product,
+            'product': self.product.id,
             'forecast_date': self.forecast_date,
             'forecast': self.forecast,
         }
