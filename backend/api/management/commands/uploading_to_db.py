@@ -38,13 +38,13 @@ class Command(BaseCommand):
             csv_writer.writerows(c)
 
         c.execute("SELECT * FROM api_product")
-        with open("product_data.csv", "w") as csv_file:
+        with open("products_data.csv", "w") as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=";")
             csv_writer.writerow([i[0] for i in c.description])
             csv_writer.writerows(c)
 
         c.execute("SELECT * FROM api_forecast")
-        with open("forecast_data.csv", "w") as csv_file:
+        with open("forecasts_data.csv", "w") as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=";")
             csv_writer.writerow([i[0] for i in c.description])
             csv_writer.writerows(c)
