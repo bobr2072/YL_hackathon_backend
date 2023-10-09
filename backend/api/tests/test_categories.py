@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from api.models import Categories, Stores
+from api.models import Categories, Product, Stores
 
 
 class CategoriesModelTestCase(TestCase):
@@ -19,7 +19,7 @@ class CategoriesModelTestCase(TestCase):
             size=1000,
             is_active=True
         )
-        self.product = 'test product'
+        self.product = Product.objects.create(name='test product')
         self.group = 'test group'
         self.category = 'test category'
         self.subcategory = 'test subcategory'

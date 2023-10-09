@@ -11,6 +11,8 @@ Django 4.2
 Django REST framework 3.14
 Gunicorn 21.2
 Celery[redis] 5.2
+Djoser 2.1
+Docker 6.1.3
 
 
 ## Реализовано: 

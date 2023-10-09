@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Categories, Forecast, Profit, Sales, Stores
+from api.models import Categories, Forecast, Product, Profit, Sales, Stores
 
 
 class ProfitSerializer(serializers.ModelSerializer):
@@ -19,17 +19,18 @@ class SalesSerializer(serializers.ModelSerializer):
 
     store = serializers.CharField(source='store.store_name')
     profit = ProfitSerializer(read_only=True, many=True)
-    product_name = serializers.CharField(source='product_name.product')
+    product = serializers.CharField(source='product.name')
 
     class Meta:
         model = Sales
-        fields = ('store', 'product_name', 'profit')
+        fields = ('store', 'product', 'profit')
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор категорий товаров."""
 
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
+    product = serializers.CharField(source='product.name')
 
     class Meta:
         model = Categories
@@ -50,7 +51,7 @@ class ForecastSerializer(serializers.ModelSerializer):
     """Сериализатор прогноза."""
 
     store = serializers.PrimaryKeyRelatedField(queryset=Stores.objects.all())
-    product = serializers.StringRelatedField()
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = Forecast

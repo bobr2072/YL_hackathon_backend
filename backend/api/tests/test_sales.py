@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from api.models import Categories, Profit, Sales, Stores
+from api.models import Product, Profit, Sales, Stores
 
 
 class SalesModelTestCase(TestCase):
@@ -19,14 +19,7 @@ class SalesModelTestCase(TestCase):
             size=1000,
             is_active=True
         )
-        self.product_name = Categories.objects.create(
-            store=self.store,
-            product='test product',
-            group='test group',
-            category='test category',
-            subcategory='test subcategory',
-            amount=10
-        )
+        self.product = Product.objects.create(name='test product')
         self.profit = Profit.objects.create(
             date='2023-09-30',
             type=True,
@@ -40,7 +33,7 @@ class SalesModelTestCase(TestCase):
         """Тест создания продаж товаров."""
 
         sales = Sales(
-            product_name=self.product_name,
+            product=self.product,
             store=self.store,
         )
         sales.save()
@@ -49,7 +42,7 @@ class SalesModelTestCase(TestCase):
 
         saved_sales = Sales.objects.get(id=sales.id)
 
-        self.assertEqual(saved_sales.product_name, self.product_name)
+        self.assertEqual(saved_sales.product, self.product)
         self.assertEqual(saved_sales.store, self.store)
 
         self.assertEqual(saved_sales.profit.count(), 1)
@@ -59,7 +52,7 @@ class SalesModelTestCase(TestCase):
         """Тест get метода продаж товаров."""
 
         sales = Sales(
-            product_name=self.product_name,
+            product=self.product,
             store=self.store
         )
         sales.save()

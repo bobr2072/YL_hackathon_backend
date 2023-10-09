@@ -1,6 +1,18 @@
 from django.db import models
 
 
+class Product(models.Model):
+    "Модель товара."
+
+    name = models.CharField(
+        max_length=32,
+        verbose_name='Название продукта'
+    )
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
 class Stores(models.Model):
     """Модель магазинов."""
 
@@ -66,13 +78,14 @@ class Profit(models.Model):
 class Categories(models.Model):
     """Модель категорий."""
 
-    product = models.CharField(
-        max_length=32,
-        verbose_name='Название товара'
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name='Название товара',
     )
     store = models.ForeignKey(
         Stores,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name='Магазин продаж',
     )
     group = models.CharField(
@@ -98,14 +111,14 @@ class Categories(models.Model):
 class Sales(models.Model):
     """Модель продаж."""
 
-    product_name = models.ForeignKey(
-        Categories,
-        on_delete=models.DO_NOTHING,
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
         verbose_name='Название товара'
     )
     store = models.ForeignKey(
         Stores,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name='Магазин продаж',
     )
     profit = models.ManyToManyField(
@@ -114,7 +127,7 @@ class Sales(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.product_name}'
+        return f'{self.product}'
 
 
 class Forecast(models.Model):
@@ -126,7 +139,7 @@ class Forecast(models.Model):
         verbose_name='Прогноз для магазина'
     )
     product = models.ForeignKey(
-        Categories,
+        Product,
         on_delete=models.DO_NOTHING,
         verbose_name='Название продукта'
     )
