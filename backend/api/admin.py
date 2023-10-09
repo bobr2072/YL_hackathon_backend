@@ -1,12 +1,18 @@
 from django.contrib import admin
 
-from api.models import Categories, Forecast, Profit, Sales, Stores
+from api.models import Categories, Forecast, Product, Profit, Sales, Stores
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    ordering = ('name',)
+    list_display = ('name',)
 
 
 @admin.register(Sales)
 class SalesAdmin(admin.ModelAdmin):
-    ordering = ('product_name',)
-    list_display = ('product_name', 'store', 'profit_list')
+    ordering = ('product',)
+    list_display = ('product', 'store', 'profit_list')
     filter_horizontal = ('profit',)
 
     def profit_list(self, obj):
