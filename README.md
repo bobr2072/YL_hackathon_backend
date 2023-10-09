@@ -33,14 +33,14 @@ Backend для проекта хакатона "Яндекс.Практикум"
 - Запускает и управляет процессом инференса. По расписанию (раз в день) данных начинает процесс прогнозирования.
 ```
 
-## Запуск
+## Запуск в контейнерах
 - Клонировать репозиторий и перейти в него в командной строке:
 ```
 git clone git@github.com:bobr2072/YL_hackathon_backend.git
 cd YL_hackathon_backend
 ```
 
-- Переход в папку с docker-compose для запуска контейнеров (доступ по http://localhost:8000/)
+- Переход в папку с docker-compose для запуска контейнеров (доступ по http://localhost:80/)
 ```
 cd infra/
 ```
@@ -67,6 +67,13 @@ docker-compose exec backend python manage.py uploading_to_db
 docker-compose exec backend python manage.py loading_from_db
 ```
 
+- Загрузка данных в базу из csv-файла и из базы в csv-файл:
+```
+docker-compose exec backend python manage.py uploading_to_db
+docker-compose exec backend python manage.py loading_from_db
+```
+## Локальный запуск
+
 - Переход в папку с backend для запуска проекта локально (доступ по http://127.0.0.1:8000/)
 
 - Cоздать и активировать виртуальное окружение:
@@ -76,7 +83,6 @@ source venv/Scripts/activate
 ```
 
 - Установить зависимости из файла requirements.txt:
-
 ```
 pip install -r requirements.txt
 ```
@@ -92,30 +98,18 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-- Загрузка данных в базу из csv-файла и из базы в csv-файл:
+- Создание суперпользователя
 ```
-docker-compose exec backend python manage.py uploading_to_db
-docker-compose exec backend python manage.py loading_from_db
+python manage.py createsuperuser
+```
+
+## К проекту подключен Swagger, в котором можно ознакомиться с эндпоинтами и методами, а также с примерами запросов, ответов и кода:
+```
+http://127.0.0.1:8000/api/swagger/
 ```
 
 ## Запуск тестов
 - Запускаются при пуше и pull request, а также через терминал
 ```
 python manage.py test api.tests
-```
-
-### Запуск тестов
-- Запускаются при пуше и pull request, а также через терминал
-```
-python manage.py test api.tests
-```
-
-- Создание суперпользователя
-```
-python manage.py createsuperuser
-```
-
-## К проекту подключен Swagger, в ктором можно ознакомиться с  эндпоинтами и методами, а также с примерами запросов, ответов и кода:
-```
-http://127.0.0.1:8000/api/swagger/
 ```
