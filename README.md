@@ -41,7 +41,7 @@ git clone git@github.com:bobr2072/YL_hackathon_backend.git
 cd YL_hackathon_backend
 ```
 
-- Переход в папку с docker-compose для запуска контейнеров (доступ по http://localhost:80/)
+- Переход в папку с docker-compose для запуска контейнеров (доступ по http://localhost:80/api/)
 ```
 cd infra/
 ```
@@ -72,7 +72,7 @@ docker-compose exec backend python manage.py loading_from_db
 
 ## Локальный запуск
 
-- Переход в папку с backend для запуска проекта локально (доступ по http://127.0.0.1:8000/)
+- Переход в папку с backend для запуска проекта локально (доступ по http://127.0.0.1:8000/api/)
 
 - Cоздать и активировать виртуальное окружение:
 ```
