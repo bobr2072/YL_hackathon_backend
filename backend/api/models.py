@@ -1,121 +1,58 @@
 from django.db import models
 
 
-class Category(models.Model):
-    """Модель категории."""
-
-    name = models.CharField(
-        verbose_name='Название категории',
-        max_length=32,
-        unique=True,
-        db_index=True,
-    )
-
-    def __str__(self):
-        return f'{self.name}'
-
-
 class Product(models.Model):
-    """Модель товара."""
+    "Модель товара."
 
     name = models.CharField(
-        verbose_name='Название товара',
         max_length=32,
-        unique=True,
-        db_index=True,
+        verbose_name='Название продукта',
+        primary_key=True
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.name}'
 
 
-class Group(models.Model):
-    """Модель группы."""
+class Stores(models.Model):
+    """Модель магазинов."""
 
-    name = models.CharField(
-        verbose_name='Название группы',
+    store_name = models.CharField(
         max_length=32,
-        unique=True,
-        db_index=True,
-    )
-
-    def __str__(self):
-        return f'{self.name}'
-
-
-class Subcategory(models.Model):
-    """Модель подкатегории."""
-
-    name = models.CharField(
-        verbose_name='Название подкатегории',
-        max_length=32,
-        unique=True,
-        db_index=True,
-    )
-
-    def __str__(self):
-        return f'{self.name}'
-
-
-class Store(models.Model):
-    """Модель магазина."""
-
-    name = models.CharField(
         verbose_name='Название магазина',
+        primary_key=True
+    )
+    city = models.CharField(
         max_length=32,
-        unique=True,
-        db_index=True
+        verbose_name='Город',
     )
-
-    def __str__(self):
-        return f'{self.name}'
-
-
-class City(models.Model):
-    """Модель города."""
-
-    name = models.CharField(
-        verbose_name='Название города',
+    division = models.CharField(
         max_length=32,
-        unique=True,
-        db_index=True,
+        verbose_name='Подразделение',
+    )
+    type_format = models.PositiveIntegerField(
+        verbose_name='Тип формата',
+    )
+    loc = models.PositiveIntegerField(
+        verbose_name='Локация',
+    )
+    size = models.PositiveIntegerField(
+        verbose_name='Размер',
+    )
+    is_active = models.BooleanField(
+        verbose_name='Активен',
     )
 
-    def __str__(self):
-        return f'{self.name}'
+    def __str__(self) -> str:
+        return f'{self.store_name}'
 
-
-class Categories(models.Model):
-    """Модель категорий."""
-
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        verbose_name='Название товара',
-    )
-    group = models.ForeignKey(
-        Group,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Группа',
-
-    )
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Категория',
-    )
-    subcategory = models.ForeignKey(
-        Subcategory,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Подкатегория',
-    )
-    amount = models.PositiveIntegerField(
-        verbose_name='Количество товара'
-    )
+    class Meta:
+        unique_together = ('store_name', 'city')
 
 
 class Profit(models.Model):
     """Модель выручки для продукта."""
+
     date = models.DateField(
         verbose_name='Дата продажи',
     )
@@ -139,92 +76,66 @@ class Profit(models.Model):
         return f'Продажи за {self.date}'
 
 
-class Sales(models.Model):
-    """Модель продаж."""
+class Categories(models.Model):
+    """Модель категорий."""
 
-    saled_product = models.ForeignKey(
+    product = models.ForeignKey(
         Product,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name='Название товара',
     )
     store = models.ForeignKey(
-        Store,
-        on_delete=models.DO_NOTHING,
+        Stores,
+        on_delete=models.CASCADE,
+        verbose_name='Магазин продаж',
+    )
+    group = models.CharField(
+        max_length=32,
+        verbose_name='Группа',
+    )
+    category = models.CharField(
+        max_length=32,
+        verbose_name='Категория',
+    )
+    subcategory = models.CharField(
+        max_length=32,
+        verbose_name='Подкатегория',
+    )
+    amount = models.PositiveIntegerField(
+        verbose_name='Количество товара'
+    )
+
+    def __str__(self) -> str:
+        return self.product
+
+
+class Sales(models.Model):
+    """Модель продаж."""
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name='Название товара'
+    )
+    store = models.ForeignKey(
+        Stores,
+        on_delete=models.CASCADE,
         verbose_name='Магазин продаж',
     )
     profit = models.ManyToManyField(
         Profit,
-        verbose_name='Информация о продажах товара',
+        verbose_name='Информация о продажах товара'
     )
 
-
-class Stores(models.Model):
-    """Модель магазинов."""
-
-    store_name = models.ForeignKey(
-        Store,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Название магазина',
-    )
-    city = models.ForeignKey(
-        City,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Город',
-    )
-    division = models.CharField(
-        max_length=32,
-        verbose_name='Подразделение',
-    )
-    type_format = models.IntegerField(
-        verbose_name='Тип формата',
-    )
-    loc = models.IntegerField(
-        verbose_name='Локация',
-    )
-    size = models.IntegerField(
-        verbose_name='Размер',
-    )
-    is_active = models.BooleanField(
-        verbose_name='Активен',
-    )
-
-    class Meta:
-        unique_together = ('store_name', 'city')
-
-
-class ProductPrediction(models.Model):
-    """Модель ожидаемого кол-ва продажи продукта."""
-
-    date = models.DateField(
-        verbose_name='Дата продажи товара'
-    )
-    units = models.PositiveIntegerField(
-        verbose_name='Ожидаемое кол-во продажи'
-    )
-
-    def __str__(self):
-        return (f'{self.date}: {self.units}')
-
-
-class Prediction(models.Model):
-    """Модель прогноза для продукта."""
-
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.DO_NOTHING,
-        verbose_name='Название прогнозируемого продукта',
-    )
-    predictions = models.ManyToManyField(
-        ProductPrediction,
-        verbose_name='Прогноз'
-    )
+    def __str__(self) -> str:
+        return f'{self.product}'
 
 
 class Forecast(models.Model):
     """Модель прогноза для магазина и продукта."""
 
     store = models.ForeignKey(
-        Store,
+        Stores,
         on_delete=models.DO_NOTHING,
         verbose_name='Прогноз для магазина'
     )
@@ -233,14 +144,7 @@ class Forecast(models.Model):
         on_delete=models.DO_NOTHING,
         verbose_name='Название продукта'
     )
-    date = models.DateField(
+    forecast_date = models.DateField(
         verbose_name='Дата создания прогноза',
     )
-    product_prediction = models.ManyToManyField(
-        ProductPrediction,
-        verbose_name='Прогноз по продукту для магазина'
-    )
-    predictions = models.ManyToManyField(
-        Prediction,
-        verbose_name='Прогноз для продукта'
-    )
+    forecast = models.JSONField(default=dict)

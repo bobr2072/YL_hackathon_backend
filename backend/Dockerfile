@@ -9,4 +9,6 @@ RUN pip install -r requirements.txt --no-cache-dir
 
 COPY . .
 
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0:8000" ]
+COPY ./entrypoint.sh /app/entrypoint.sh
+
+ENTRYPOINT [ "sh", "entrypoint.sh" ]
