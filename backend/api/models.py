@@ -94,9 +94,6 @@ class Categories(models.Model):
     def __str__(self) -> str:
         return self.product
 
-    class Meta:
-        unique_together = ('product', 'store')
-
 
 class Sales(models.Model):
     """Модель продаж."""
