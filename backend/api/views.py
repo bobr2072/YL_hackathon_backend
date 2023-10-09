@@ -21,7 +21,7 @@ class SalesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product__name', 'store']
+    filterset_fields = ['product', 'store']
 
 
 class StoresViewSet(viewsets.ReadOnlyModelViewSet):
@@ -29,8 +29,8 @@ class StoresViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Stores.objects.all()
     serializer_class = StoresSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['store_name']
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    search_fields = ['store_name', 'city', 'division']
 
 
 class ForecastViewSet(viewsets.ModelViewSet):
@@ -39,4 +39,4 @@ class ForecastViewSet(viewsets.ModelViewSet):
     queryset = Forecast.objects.all()
     serializer_class = ForecastSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['product__name']
+    search_fields = ['product']

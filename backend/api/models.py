@@ -6,7 +6,8 @@ class Product(models.Model):
 
     name = models.CharField(
         max_length=32,
-        verbose_name='Название продукта'
+        verbose_name='Название продукта',
+        primary_key=True
     )
 
     def __str__(self) -> str:
