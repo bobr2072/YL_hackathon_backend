@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 
 from users.serializers import UserReadSerializer
