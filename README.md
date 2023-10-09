@@ -40,7 +40,7 @@ git clone git@github.com:bobr2072/YL_hackathon_backend.git
 cd YL_hackathon_backend
 ```
 
-### Переход в папку с docker-compose
+### Переход в папку с docker-compose для запуска контейнеров (доступ по http://localhost:8000/)
 ```
 cd infra/
 ```
@@ -49,29 +49,39 @@ cd infra/
 ```
 DJANGO_SECRET_KEY= 'django-insecure-example-seckret-key'
 ```
-
-### Запуск проекта
+Запуск проекта
 ```
 docker-compose up -d
 ```
-
-### Создание суперпользователя
+Создание суперпользователя
 ```
 docker-compose exec backend python manage.py createsuperuser
 ```
+Загрузка данных в базу из csv-файла и из базы в csv-файл:
+```
+docker-compose exec backend python manage.py uploading_to_db
+docker-compose exec backend python manage.py loading_from_db
 
-### Сбор статики
+### Переход в папку с backend для запуска проекта локально (доступ по http://127.0.0.1:8000/)
+Cоздать и активировать виртуальное окружение:
 ```
-docker-compose exec backend python manage.py collectstatic --no-input
-docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+python -m venv venv
+source venv/Scripts/activate
 ```
-
-### Загрузка данных
+Установить зависимости из файла requirements.txt:
 ```
-docker-compose exec backend python manage.py loaddata dump.json
+pip install -r requirements.txt
 ```
-
-### Загрузка данных в базу из csv-файла и из базы в csv-файл
+Выполнить миграции:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+Запустить проект:
+```
+python manage.py runserver
+```
+Загрузка данных в базу из csv-файла и из базы в csv-файл:
 ```
 docker-compose exec backend python manage.py uploading_to_db
 docker-compose exec backend python manage.py loading_from_db
@@ -81,4 +91,18 @@ docker-compose exec backend python manage.py loading_from_db
 - Запускаются при пуше и pull request, а также через терминал
 ```
 python manage.py test api.tests
+```
+
+### Запуск тестов
+Запускаются при пуше и pull request, а также через терминал
+```
+python manage.py test api.tests
+```
+ Создание суперпользователя
+```
+python manage.py createsuperuser
+```
+## К проекту подключен Swagger, в ктором можно ознакомиться с  эндпоинтами и методами, а также с примерами запросов, ответов и кода:
+```
+http://127.0.0.1:8000/api/swagger/
 ```

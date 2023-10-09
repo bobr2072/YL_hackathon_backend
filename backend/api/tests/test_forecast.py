@@ -69,7 +69,7 @@ class ForecastModelTestCase(TestCase):
 
         forecast_data = {
             'store': self.store,
-            'product': self.product,
+            'product': self.product.id,
             'forecast_date': self.forecast_date,
             'forecast': self.forecast,
         }
