@@ -14,7 +14,37 @@ class Command(BaseCommand):
         conn = sql.connect('db.sqlite3')
         c = conn.cursor()
         c.execute("SELECT * FROM api_profit")
-        with open("db_data.csv", "w") as csv_file:
+        with open("profit_data.csv", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow([i[0] for i in c.description])
+            csv_writer.writerows(c)
+
+        c.execute("SELECT * FROM api_stores")
+        with open("stores_data.csv", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow([i[0] for i in c.description])
+            csv_writer.writerows(c)
+
+        c.execute("SELECT * FROM api_categories")
+        with open("categories_data.csv", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow([i[0] for i in c.description])
+            csv_writer.writerows(c)
+
+        c.execute("SELECT * FROM api_sales")
+        with open("sales_data.csv", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow([i[0] for i in c.description])
+            csv_writer.writerows(c)
+
+        c.execute("SELECT * FROM api_product")
+        with open("product_data.csv", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow([i[0] for i in c.description])
+            csv_writer.writerows(c)
+
+        c.execute("SELECT * FROM api_forecast")
+        with open("forecast_data.csv", "w") as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=";")
             csv_writer.writerow([i[0] for i in c.description])
             csv_writer.writerows(c)
