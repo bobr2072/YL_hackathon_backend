@@ -36,6 +36,8 @@ Backend для проекта хакатона "Яндекс.Практикум"
 - Клонировать репозиторий и перейти в него в командной строке:
 ```
 git clone git@github.com:bobr2072/YL_hackathon_backend.git
+```
+```
 cd YL_hackathon_backend
 ```
 
@@ -64,14 +66,10 @@ docker-compose exec backend python manage.py createsuperuser
 ```
 docker-compose exec backend python manage.py uploading_to_db
 ```
+```
 docker-compose exec backend python manage.py loading_from_db
 ```
 
-- Загрузка данных в базу из csv-файла и из базы в csv-файл:
-```
-docker-compose exec backend python manage.py uploading_to_db
-docker-compose exec backend python manage.py loading_from_db
-```
 ## Локальный запуск
 
 - Переход в папку с backend для запуска проекта локально (доступ по http://127.0.0.1:8000/)
@@ -79,6 +77,8 @@ docker-compose exec backend python manage.py loading_from_db
 - Cоздать и активировать виртуальное окружение:
 ```
 python -m venv venv
+```
+```
 source venv/Scripts/activate
 ```
 
@@ -90,6 +90,8 @@ pip install -r requirements.txt
 - Выполнить миграции:
 ```
 python manage.py makemigrations
+```
+```
 python manage.py migrate
 ```
 
