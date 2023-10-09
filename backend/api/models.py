@@ -94,6 +94,9 @@ class Categories(models.Model):
     def __str__(self) -> str:
         return f'{self.product}'
 
+    class Meta:
+        unique_together = ('product', 'store')
+
 
 class Sales(models.Model):
     """Модель продаж."""
@@ -115,9 +118,6 @@ class Sales(models.Model):
 
     def __str__(self) -> str:
         return f'{self.product_name}'
-
-    class Meta:
-        unique_together = ('product_name', 'store')
 
 
 class Forecast(models.Model):
